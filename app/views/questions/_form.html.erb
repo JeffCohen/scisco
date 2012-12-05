@@ -1,0 +1,26 @@
+<%= form_for(@question) do |f| %>
+  <fieldset>
+    <legend>Ask a Question</legend>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'span7', placeholder: 'Required: Enter a brief title here.' %>
+    <br/>
+    <%= f.label :notes %>
+      <span><em>Optional: Provide more context or the full form of your question below.</em>
+      </span>
+    <%= f.text_area :notes, class: 'span7', rows: 4 %>
+  </fieldset>
+    <%= f.submit "Submit This Question", class: 'btn btn-success btn-large', id: 'question_submit' %> or <%= link_to "Cancel", root_url, id: 'question_cancel_link', class: 'btn btn-danger' %>
+
+<% end %>

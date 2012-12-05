@@ -1,0 +1,2 @@
+$("#question_<%= @q.id %>_votes").html("<%= @q.votes %>");
+$("#<%= dom_id(@q) %>").effect("highlight", {}, "slow");

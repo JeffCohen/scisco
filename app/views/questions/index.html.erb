@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="span8">
+    <%= form_tag root_url, method: 'get', class: 'pull-right', id: 'search_form' do %>
+      <%= text_field_tag :search, params[:search], class: 'search-query', placeholder: "Search..." %>
+      <%= link_to "Clear", root_url %>
+    <% end %>
+    <%= link_to "I Have a Question!", new_question_path, id: 'new_question_link', class: 'btn btn-success' %>
+    <%= render 'form' %>
+  </div>
+</div>
+<br/>
+
+<div class="row">
+  <table class="table table-striped span12">
+    <tr>
+      <th>Votes</th>
+      <th>Question</th>
+    </tr>
+
+    <% @questions.each do |question| %>
+      <tr id="<%= dom_id(question) %>">
+        <td><span id="question_<%= question.id %>_votes"><%= question.votes %></span>
+          <%= link_to upvote_question_path(question), remote: true, method: 'put', class: 'btn' do %>
+              <i class="icon-thumbs-up"></i>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to question.title, question, title: question.notes, data: { question_id: question.id },
+                    class: 'question_details' %>
+          <%= form_for question, remote: true do |q| %>
+          <br/>
+          <br/>
+            <fieldset>
+              <%= q.label :notes %><%= q.text_area :notes, :rows => 4, class: 'span6' %>
+            </fieldset>
+            <%= q.submit "Save", class: 'btn btn-success' %> or <%= link_to "Cancel", root_url, class: 'question_details', data: { question_id: question.id } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
