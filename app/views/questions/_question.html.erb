@@ -1,0 +1,28 @@
+<tr id="<%= dom_id(question) %>">
+  <td>
+    <span id="question_<%= question.id %>_votes"><%= question.votes %></span>
+    <%= link_to upvote_question_path(question), remote: true, method: 'put', class: 'btn' do %>
+        <i class="icon-thumbs-up"></i>
+    <% end %>
+    <% if question.answered? %>
+      <%= link_to "Reopen", question_url(question, :answered => false), :method => :put, remote: true, :class => 'question_action' %>
+    <% else %>
+      <%= link_to "Mark as Answered", question_url(question, :answered => true), :method => :put, remote: true, :class => 'question_action' %>
+    <% end %>
+  </td>
+  
+  <td width="75%">
+    <%= link_to question.title, question, title: question.notes, data: { question_id: question.id }, class: 'question_details' %>
+    <span class="question_date pull-right">
+      <%= question.updated_at.strftime("%a, %b %e") %> #<%= question.id %>
+    </span>
+    
+    <%= form_for question, remote: true do |q| %>
+      <br/>
+      <fieldset>
+        <%= q.label :notes, "You can provide brief details or a code snippet here:" %><%= q.text_area :notes, :rows => 4, class: 'span6' %>
+      </fieldset>
+      <%= q.submit "Save", class: 'btn btn-success' %> or <%= link_to "Cancel", root_url, class: 'question_details', data: { question_id: question.id } %>
+    <% end %>
+  </td>
+</tr>

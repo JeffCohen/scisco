@@ -1,1 +1,3 @@
 $("#edit_question_<%= @question.id %>").hide();
+// $("#<%= dom_id(@question) %> .question_details").attr("title", "<%= j(@question.notes) %>");
+$("#<%= dom_id(@question) %>").replaceWith("<%= j(render('question', question: @question)) %>")

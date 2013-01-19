@@ -12,7 +12,17 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.search(params[:search]).order('votes desc').page(params[:page]).per(20)
+    @questions = Question.search(params[:search])
+    if params[:sort].to_s.downcase == 'popular'
+      @questions = @questions.order('votes desc')
+    else
+      @questions = @questions.order('updated_at desc')
+    end
+    if params[:answered].blank?
+      @questions = @questions.unanswered
+    end
+    
+    @questions = @questions.page(params[:page]).per(25)
 
     @question = Question.new
     @show_form = false
@@ -75,7 +85,10 @@ class QuestionsController < ApplicationController
   # PUT /questions/1.json
   def update
     @question = Question.find(params[:id])
-
+    if params[:answered].present?
+      @question.answered = params[:answered] == 'true'
+    end
+    
     respond_to do |format|
       if @question.update_attributes(params[:question])
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }

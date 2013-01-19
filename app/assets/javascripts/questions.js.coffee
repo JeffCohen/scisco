@@ -5,6 +5,9 @@
 $ ->
   $(".question_details").tooltip()
 
+  $("#answered").on "click", (e) ->
+    $('#toggle_form').submit()
+    
   if $("#error_explanation").length > 0
     $("#new_question").show()
     $("#new_question_link").hide()

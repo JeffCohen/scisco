@@ -12,7 +12,23 @@
  *= require_tree .
  */
 
+th, td { font-size: 18px;}
+
 .edit_question { display: none;}
 a.question_details { text-decoration: none; }
 #new_question { display: none;}
-/*#new_question_link { display: none; }*/
+
+.questions { 
+  margin-top: 24px;
+}
+
+tbody tr:hover {
+  background: #F3F3F3;
+}
+
+.question_action { 
+  font-size: 12px;
+  color: #666;
+  padding-left: 12px;
+  font-style: italic;
+}

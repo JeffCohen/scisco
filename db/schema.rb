@@ -17,8 +17,9 @@ ActiveRecord::Schema.define(:version => 20121205014821) do
     t.string   "title"
     t.text     "notes"
     t.integer  "votes",      :default => 0
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.boolean  "answered",   :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
 end

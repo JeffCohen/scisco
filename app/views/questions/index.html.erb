@@ -1,42 +1,46 @@
 <div class="row">
-  <div class="span8">
-    <%= form_tag root_url, method: 'get', class: 'pull-right', id: 'search_form' do %>
+  <div class="pull-right">
+    <%= form_tag root_url, method: 'get', id: 'search_form' do %>
       <%= text_field_tag :search, params[:search], class: 'search-query', placeholder: "Search..." %>
       <%= link_to "Clear", root_url %>
     <% end %>
-    <%= link_to "I Have a Question!", new_question_path, id: 'new_question_link', class: 'btn btn-success' %>
+  </div>
+  <div class="span8">
+    <%= link_to "I Have a Question!", new_question_path, id: 'new_question_link', class: 'btn btn-success btn-large' %>
     <%= render 'form' %>
   </div>
 </div>
 <br/>
+<br/>
 
 <div class="row">
-  <table class="table table-striped span12">
-    <tr>
-      <th>Votes</th>
-      <th>Question</th>
-    </tr>
-
-    <% @questions.each do |question| %>
-      <tr id="<%= dom_id(question) %>">
-        <td><span id="question_<%= question.id %>_votes"><%= question.votes %></span>
-          <%= link_to upvote_question_path(question), remote: true, method: 'put', class: 'btn' do %>
-              <i class="icon-thumbs-up"></i>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to question.title, question, title: question.notes, data: { question_id: question.id },
-                    class: 'question_details' %>
-          <%= form_for question, remote: true do |q| %>
-          <br/>
-          <br/>
-            <fieldset>
-              <%= q.label :notes %><%= q.text_area :notes, :rows => 4, class: 'span6' %>
-            </fieldset>
-            <%= q.submit "Save", class: 'btn btn-success' %> or <%= link_to "Cancel", root_url, class: 'question_details', data: { question_id: question.id } %>
-          <% end %>
-        </td>
-      </tr>
+  <div class="span4">
+    <label>
+    Sort by: 
+    <%= link_to "Most Recent", questions_url %> |
+    <%= link_to "Most Popular", questions_url(sort: :popular) %> 
+    </label>
+  </div>
+  <div class="span4">
+    <%= form_tag questions_url, method: 'get', id: 'toggle_form' do %>
+      <label class="checkbox">
+        <%= check_box_tag :answered, "1", params[:answered].present? %>Show answered questions
+      </label>
     <% end %>
+  </div>
+</div>
+<div class="row">
+  <table class="table span12 questions">
+    <thead>
+      <tr>
+        <th>Votes</th>
+        <th>Question</th>
+      </tr>
+    <tbody>
+      <%= render @questions %>
+    </tbody>
   </table>
+</div>
+<div class="row">
+  <div class="pull-right"><%= paginate @questions %></div>
 </div>
